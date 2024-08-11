@@ -194,10 +194,20 @@ void lsh_loop(void)
 	char *line;
 	char **args;
 	int status;
+	
+	char file_name[] = "history.txt";
+
+	FILE *file = fopen(file_name,"a"); 
 
 	do{
 		printf("> ");
 		line = lsh_read_line();
+
+		if(file!=NULL)
+		{
+			fprintf(file,"%s\n",line);
+		}
+
 		args = lsh_split_line(line);
 		status = lsh_execute(args);
 
@@ -206,6 +216,7 @@ void lsh_loop(void)
 	}
 	while(status);
 	
+	fclose(file);
 }
 
 int main(int argc,char **argv)
